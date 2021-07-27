@@ -1,0 +1,35 @@
+.button-filter {
+    background-color: #24678d;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    width: 5rem;
+    height: 2rem;
+    cursor: pointer;
+    transition: all 0.1s;
+    font-family: inherit;
+    font-size: 16px;
+    text-transform: capitalize;
+}
+
+.button-filter:hover {
+    background-color: #1d5372;
+}
+
+.button-register {
+    background-color: #24678d;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    width: 5rem;
+    height: 2rem;
+    cursor: pointer;
+    transition: all 0.1s;
+    font-family: inherit;
+    font-size: 16px;
+    text-transform: capitalize;
+}
+
+.button-register:hover {
+    background-color: #1d5372;
+}
