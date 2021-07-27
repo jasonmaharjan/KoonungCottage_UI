@@ -1,30 +1,48 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Select from "react-select";
 import Button from "../Button/Button";
 import DatePicker from "react-datepicker";
+import axios from "axios";
 
 import "react-datepicker/dist/react-datepicker.css";
-
 import "./filterUI.css";
 
 const FilterUI = () => {
-    const activityTypes = [
-        { value: "Beginners Art", label: "Beginners Art" },
-        { value: "Beginners Botanical", label: "Beginners Botanical" },
-        { value: "Book Group", label: "Book Group" },
-        { value: "Child Care", label: "Child Care" },
-    ];
+    const [selectValues, setSelectValues] = useState(null);
     const [selectedOptions, setSelectedOptions] = useState(null);
     const [startDate, setStartDate] = useState(new Date());
     const [endDate, setEndDate] = useState(new Date());
 
-    const onButtonClicked = () => {
-        console.log(startDate, endDate, selectedOptions);
+    const onButtonClicked = async () => {
+        const url = "https://0r2kabf0lk.execute-api.ap-southeast-2.amazonaws.com/prod/getActivities";
+        let filteredData = null;
+
+        if (selectedOptions) {
+            filteredData = await axios.get(url, { params: { activity: selectedOptions.value } });
+        } else if (startDate && endDate) {
+            filteredData = await axios.get(url, {
+                params: { startDate: startDate.toISOString(), endDate: endDate.toISOString() },
+            });
+        } else if (selectedOptions && startDate && endDate) {
+            filteredData = await axios.get(url, {
+                params: { activity: selectedOptions.value, startDate: startDate.toISOString(), endDate: endDate.toISOString() },
+            });
+        }
+        console.log(filteredData);
     };
 
     const handleChange = (value) => {
         setSelectedOptions(value);
     };
+
+    let dummy = [];
+    useEffect(async () => {
+        const resData = await axios.get("https://0r2kabf0lk.execute-api.ap-southeast-2.amazonaws.com/prod/getSelectValues");
+        if (resData) {
+            resData.data.selectValues.entries.map((entry) => dummy.push({ value: entry.id, label: entry.name }));
+            setSelectValues(dummy);
+        }
+    }, []);
 
     return (
         <section className="filterUI">
@@ -40,15 +58,16 @@ const FilterUI = () => {
                             <DatePicker selected={endDate} onChange={(date) => setEndDate(date)} />
                         </div>
                     </div>
-
-                    <Select
-                        onChange={handleChange}
-                        isMulti
-                        name="activityTypes"
-                        options={activityTypes}
-                        className="basic-multi-select"
-                        classNamePrefix="select"
-                    />
+                    {selectValues ? (
+                        <Select
+                            onChange={handleChange}
+                            // isMulti
+                            name="activityValues"
+                            options={selectValues}
+                            className="basic-multi-select"
+                            classNamePrefix="select"
+                        />
+                    ) : null}
                 </div>
 
                 <Button title="filter" onClick={() => onButtonClicked()} />

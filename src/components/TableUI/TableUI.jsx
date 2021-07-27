@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { useTable } from "react-table";
 import Button from "../Button/Button";
@@ -13,7 +14,6 @@ const TableUI = () => {
     const getEntries = async () => {
         const url = "https://0r2kabf0lk.execute-api.ap-southeast-2.amazonaws.com/prod/getActivities";
         const res = await axios.get(url);
-        console.log(res);
         return res.data.entries;
     };
 
@@ -89,6 +89,11 @@ const TableUI = () => {
                     border-right: 0;
                 }
             }
+
+            th {
+                background-color: #bebebe;
+                color: black;
+            }
         }
     `;
 
@@ -121,7 +126,6 @@ const TableUI = () => {
                         return (
                             <tr {...row.getRowProps()}>
                                 {row.cells.map((cell) => {
-                                    console.log(cell);
                                     if (cell.column.Header === "Activity") {
                                         return <td>{cell.row.original.name}</td>;
                                     }
@@ -143,7 +147,9 @@ const TableUI = () => {
                                         return (
                                             <td>
                                                 <div style={{ display: "flex", justifyContent: "center" }}>
-                                                    <Button title="register" onClick={() => handleRegisterClick(cell.row.original.id)} />
+                                                    <Link to={`/${cell.row.original.id}`}>
+                                                        <Button title="register" />
+                                                    </Link>
                                                 </div>
                                             </td>
                                         );
