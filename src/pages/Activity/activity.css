@@ -1,0 +1,12 @@
+.activity-page {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    height: 100%;
+}
+
+.activity-image {
+    background-image: url("https://cdn.cdnparenting.com/articles/2018/04/338324834-H.jpg");
+    background-repeat: no-repeat;
+
+    border-radius: 5px;
+}

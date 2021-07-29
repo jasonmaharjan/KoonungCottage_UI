@@ -8,20 +8,7 @@ import moment from "moment";
 
 import "./table.css";
 
-const TableUI = () => {
-    const [activitiesData, setActivitiesData] = useState(null);
-
-    const getEntries = async () => {
-        const url = "https://0r2kabf0lk.execute-api.ap-southeast-2.amazonaws.com/prod/getActivities";
-        const res = await axios.get(url);
-        return res.data.entries;
-    };
-
-    useEffect(async () => {
-        const entries = await getEntries();
-        setActivitiesData(entries);
-    }, []);
-
+const TableUI = ({ activitiesData }) => {
     const columns = [
         {
             Header: "Activity",
@@ -97,10 +84,6 @@ const TableUI = () => {
         }
     `;
 
-    const handleRegisterClick = (id) => {
-        console.log(id);
-    };
-
     const Table = ({ columns, data }) => {
         // Use the state and functions returned from useTable
         const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } = useTable({
@@ -162,10 +145,21 @@ const TableUI = () => {
             </table>
         );
     };
+
+    console.log(activitiesData);
+
     return (
-        <div>
-            <Styles>{activitiesData ? <Table columns={columns} data={activitiesData} /> : null}</Styles>
-        </div>
+        <>
+            {activitiesData && activitiesData.length ? (
+                <div>
+                    <Styles>
+                        <Table columns={columns} data={activitiesData} />
+                    </Styles>
+                </div>
+            ) : (
+                <div style={{ marginTop: "2rem" }}>No results to display!</div>
+            )}
+        </>
     );
 };
 

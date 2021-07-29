@@ -1,33 +1,98 @@
-import Button from "../Button/Button";
+import { useState } from "react";
+import { Form, Input, Cascader, Select, Row, Col, Checkbox, Button, AutoComplete } from "antd";
 
 import "./form.css";
 
-const Form = () => {
+const FormUI = ({ handleSubmit }) => {
+    const { Option } = Select;
+    const [form] = Form.useForm();
+    const onFinish = (values) => {
+        handleSubmit(values);
+    };
+
+    const prefixSelector = (
+        <Form.Item name="prefix" noStyle>
+            <Select
+                style={{
+                    width: 70,
+                }}
+            >
+                <Option value="61">+61</Option>
+            </Select>
+        </Form.Item>
+    );
+
     return (
-        <form className="form">
-            <label for id="firstName">
-                First Name <span style={{ color: "red" }}>&#42;</span>
-            </label>
-            <input id="firstName" name="firstName" type="text" className="form-input" />
+        <Form form={form} layout={"vertical"} name="register" onFinish={onFinish} style={{ fontFamily: "Lato, sans-serif", fontSize: "1rem" }}>
+            <Form.Item
+                name="firstName"
+                label="First Name"
+                rules={[
+                    {
+                        required: true,
+                        message: "Please input your first name!",
+                    },
+                ]}
+            >
+                <Input />
+            </Form.Item>
 
-            <label for id="lastName">
-                Last Name <span style={{ color: "red" }}>&#42;</span>
-            </label>
-            <input name="lastName" type="text" className="form-input" />
+            <Form.Item
+                name="lastName"
+                label="Last Name"
+                rules={[
+                    {
+                        required: true,
+                        message: "Please input your last name!",
+                        whitespace: true,
+                    },
+                ]}
+            >
+                <Input />
+            </Form.Item>
 
-            <label for id="email">
-                Email <span style={{ color: "red" }}>&#42;</span>
-            </label>
-            <input name="email" type="email" className="form-input" />
+            <Form.Item
+                name="email"
+                label="E-mail"
+                rules={[
+                    {
+                        type: "email",
+                        message: "The input is not valid E-mail!",
+                    },
+                    {
+                        required: true,
+                        message: "Please input your E-mail!",
+                    },
+                ]}
+            >
+                <Input />
+            </Form.Item>
 
-            <label for id="mobileNumber">
-                Mobile Number <span style={{ color: "red" }}>&#42;</span>
-            </label>
-            <input name="mobileNumber" placeholder type="phone" className="form-input" />
+            <Form.Item
+                name="mobileNumber"
+                label="Mobile Number"
+                rules={[
+                    {
+                        required: true,
+                        message: "Please input your mobile number!",
+                    },
+                ]}
+            >
+                <Input
+                    addonBefore={prefixSelector}
+                    style={{
+                        width: "100%",
+                    }}
+                />
+            </Form.Item>
 
-            <Button title="submit" />
-        </form>
+            <Form.Item>
+                <button htmlType="submit" className="register-btn">
+                    Register and Pay
+                </button>
+            </Form.Item>
+        </Form>
     );
 };
 
-export default Form;
+export default FormUI;

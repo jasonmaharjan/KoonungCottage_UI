@@ -4,9 +4,9 @@ import moment from "moment";
 import Button from "../Button/Button";
 import axios from "axios";
 
-import "./activity.css";
+import "./activityUI.css";
 
-const ActiityUI = () => {
+const ActivityUI = () => {
     const [activity, setActivity] = useState(null);
     const { id } = useParams();
 
@@ -18,21 +18,24 @@ const ActiityUI = () => {
 
     useEffect(async () => {
         const res = await getEntry();
-        setActivity(res.entry);
+        setActivity(res);
     }, []);
 
     console.log(activity);
 
     return (
         <section className="activityUI">
-            Activity Info:
             {activity ? (
                 <div className="activity-card">
                     <div className="activity-card-header">{activity.name}</div>
                     <div className="activity-card-body">
                         <div>
                             <div className="activity-card-title">Delivery Method:</div>
-                            <div className="activity-card-content">{activity["delivery-method"][0].value}</div>
+                            {activity["delivery-method"].length ? (
+                                <div className="activity-card-content">{activity["delivery-method"][0].value}</div>
+                            ) : (
+                                <div className="activity-card-content">-</div>
+                            )}
                         </div>
                         <div>
                             <div className="activity-card-title">Duration:</div>
@@ -40,35 +43,33 @@ const ActiityUI = () => {
                         </div>
 
                         <div>
-                            <div className="activity-card-title">Start Time</div>
+                            <div className="activity-card-title">Start Date</div>
                             <div className="activity-card-content">{moment(activity["start-time"]).format("YYYY-MM-DD")}</div>
                         </div>
 
                         <div>
-                            <div className="activity-card-title">End Time</div>
+                            <div className="activity-card-title">End Date</div>
                             <div className="activity-card-content">{moment(activity["end-time"]).format("YYYY-MM-DD")}</div>
                         </div>
 
                         <div>
                             <div className="activity-card-title">Room:</div>
-                            <div className="activity-card-content">{activity["room"][0].value}</div>
+                            {activity["room"].length ? (
+                                <div className="activity-card-content">{activity["room"][0].value}</div>
+                            ) : (
+                                <div className="activity-card-content">-</div>
+                            )}
                         </div>
 
                         <div>
                             <div className="activity-card-title">Cost:</div>
-                            <div className="activity-card-content">{activity["cost"] ? activity["cost"] : "N/A"}</div>
+                            <div className="activity-card-content">AUD {activity["activity-fee"]}</div>
                         </div>
                     </div>
-
-                    <center>
-                        <Link to={`/${id}/register`}>
-                            <button className="button"> Register and Pay</button>
-                        </Link>
-                    </center>
                 </div>
             ) : null}
         </section>
     );
 };
 
-export default ActiityUI;
+export default ActivityUI;

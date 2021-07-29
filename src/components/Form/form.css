@@ -1,18 +1,21 @@
-.form {
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    font-size: 1rem;
+.register-form {
+    font-family: inherit !important;
 }
 
-label {
-    margin-bottom: 0.5rem;
-}
-
-.form-input {
-    margin-bottom: 1rem;
-    height: 1.35rem;
-    border-radius: 5px;
+.register-btn {
+    background-color: rgb(218, 68, 68);
     border: none;
-    border: 1px solid #bebebe;
+    border-radius: 2px;
+    color: white;
+    width: 10rem;
+    height: 2rem;
+    cursor: pointer;
+    transition: all 0.1s;
+    font-family: inherit;
+    font-size: 1rem;
+    text-transform: capitalize;
+}
+
+.register-btn:hover {
+    background-color: rgb(199, 62, 62);
 }
