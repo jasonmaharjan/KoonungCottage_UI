@@ -17,10 +17,11 @@
 }
 
 .activity-card-body {
-    padding: 2rem;
+    padding: 2rem 0 1rem 2rem;
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-gap: 0.25rem;
+    border-bottom: 1px solid #bebebe;
 }
 
 .activity-card-title {

@@ -87,7 +87,7 @@ const FormUI = ({ handleSubmit }) => {
             </Form.Item>
 
             <Form.Item>
-                <button htmlType="submit" className="register-btn">
+                <button htmltype="submit" className="register-btn">
                     Register and Pay
                 </button>
             </Form.Item>

@@ -1,28 +1,8 @@
-import { useState, useEffect } from "react";
-import { Link, useParams } from "react-router-dom";
 import moment from "moment";
-import Button from "../Button/Button";
-import axios from "axios";
 
 import "./activityUI.css";
 
-const ActivityUI = () => {
-    const [activity, setActivity] = useState(null);
-    const { id } = useParams();
-
-    const getEntry = async () => {
-        const url = `https://0r2kabf0lk.execute-api.ap-southeast-2.amazonaws.com/prod/getActivity/${id}`;
-        const res = await axios.get(url);
-        return res.data;
-    };
-
-    useEffect(async () => {
-        const res = await getEntry();
-        setActivity(res);
-    }, []);
-
-    console.log(activity);
-
+const ActivityUI = ({ activity }) => {
     return (
         <section className="activityUI">
             {activity ? (

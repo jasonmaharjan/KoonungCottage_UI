@@ -1,17 +1,11 @@
 import { useState, useEffect } from "react";
 import FormUI from "../Form/form";
-import Button from "../Button/Button";
 import { useParams } from "react-router-dom";
 import queryString from "query-string";
 import axios from "axios";
 import "./registerUI.css";
 
 const RegisterUI = () => {
-    const [firstName, setFirstName] = useState("");
-    const [lastName, setLastName] = useState("");
-    const [email, setEmail] = useState("");
-    const [mobileNumber, setMobileNumber] = useState("");
-
     const [activity, setActivity] = useState(null);
     const { id } = useParams();
 
@@ -46,7 +40,7 @@ const RegisterUI = () => {
         console.log(attendanceReq.data.entry);
 
         const queryParams = queryString.stringify({
-            amount: activity["activity-fee"],
+            amount: activity["activity-fee"] ? activity["activity-fee"] : 0,
             description: `Payment for ${activity["name"]}`,
             amount_editable: false,
             success_url:
@@ -54,39 +48,15 @@ const RegisterUI = () => {
                 //     ? `http://localhost:3000/booking/${guestsAndOrderData.orderResponse.entry.id}`
                 //     : `http://experience.japanesemountainretreat.com.au.s3-website-ap-southeast-2.amazonaws.com/booking/${guestsAndOrderData.orderResponse.entry.id}`,
                 // `http://localhost:3000/payment/${attendanceReq.data.entry.id}`,
-                `http://localhost:3000/`,
+                `http://localhost:3000/paymentInfo`,
+            // `http://kalysyskoonung.com.s3-website-ap-southeast-2.amazonaws.com/paymentInfo`,
             email: attendanceReq.data.entry.email,
         });
 
         window.location.href = `https://pay.pinpayments.com/riba/test?${queryParams}`;
     };
 
-    // const handleChange = (e) => {
-    //     const { name, value } = e.target;
-    //     switch (name) {
-    //         case "firstName":
-    //             setFirstName(value);
-    //             break;
-
-    //         case "lastName":
-    //             setLastName(value);
-    //             break;
-
-    //         case "email":
-    //             setEmail(value);
-    //             break;
-
-    //         case "mobileNumber":
-    //             setMobileNumber(value);
-    //             break;
-
-    //         default:
-    //             console.log("Register form");
-    //     }
-    // };
-
     const handleSubmit = async (values) => {
-        //e.preventDefault();
         console.log("Received values of form: ", values);
 
         if (values) {

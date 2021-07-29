@@ -7,6 +7,13 @@
 .activity-image {
     background-image: url("https://cdn.cdnparenting.com/articles/2018/04/338324834-H.jpg");
     background-repeat: no-repeat;
-
+    background-position: right;
+    background-size: cover;
     border-radius: 5px;
+}
+
+.activity-page-content {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
 }
