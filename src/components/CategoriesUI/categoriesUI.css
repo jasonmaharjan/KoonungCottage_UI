@@ -1,0 +1,17 @@
+.categories-list {
+    font-size: 1rem;
+    padding: 0;
+    margin-top: 2rem;
+}
+
+.categories-list-item {
+    cursor: pointer;
+    list-style-type: none;
+    margin-bottom: 0.5rem;
+    color: rgb(36, 141, 108);
+}
+
+.categories-list-item:hover {
+    text-decoration: underline;
+    color: rgb(25, 92, 71);
+}

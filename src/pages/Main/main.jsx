@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 
+import { Link } from "react-router-dom";
+
 import { Menu, Dropdown, Space, Button } from "antd";
 import { DownOutlined } from "@ant-design/icons";
 import ButtonUI from "../../components/Button/Button";
@@ -55,7 +57,6 @@ const Main = () => {
     };
 
     const handleMenuClick = (e) => {
-        console.log("click", e);
         if (e.key === "table") setLayout("table");
         else if (e.key === "tiles") setLayout("tiles");
     };
@@ -91,7 +92,11 @@ const Main = () => {
                             {showFilters ? (
                                 <FilterUI selectActivity={selectActivity} selectActivityCategory={selectActivityCategory} update={updateActivities} />
                             ) : null}
-                            {layout === "table" ? <TableUI activitiesData={activitiesData} /> : layout === "tiles" ? <TilesUI /> : null}
+                            {layout === "table" ? (
+                                <TableUI activitiesData={activitiesData} />
+                            ) : layout === "tiles" ? (
+                                <TilesUI activitiesData={activitiesData} categoriesData={selectActivityCategory} />
+                            ) : null}
                         </div>
                     ) : null}
                 </section>

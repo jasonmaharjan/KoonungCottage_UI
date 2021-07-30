@@ -1,0 +1,56 @@
+.cardUI {
+    padding: 1rem 0rem;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+}
+
+.cardUI-header {
+    font-size: 1.15rem;
+    color: #24678d;
+}
+
+.cardUI-body {
+    margin-top: 2rem;
+    display: flex;
+}
+
+.cardUI-body-image {
+    background-image: url("https://cdn.cdnparenting.com/articles/2018/04/338324834-H.jpg");
+    background-repeat: no-repeat;
+    background-position: right;
+    background-size: cover;
+    border-radius: 5px;
+    height: 15rem;
+    width: 20rem;
+}
+
+.cardUI-body-content {
+    font-size: 1rem;
+    padding: 0rem 1rem;
+    color: #3f3f3f;
+}
+
+.cardUI-body-content-item {
+    list-style-type: none;
+    margin-bottom: 0.75rem;
+}
+
+.register-btn {
+    background-color: rgb(218, 68, 68);
+    border: none;
+    border-radius: 2px;
+    color: white;
+    width: 10rem;
+    height: 2rem;
+    cursor: pointer;
+    transition: all 0.1s;
+    font-family: inherit;
+    font-size: 1rem;
+    text-transform: capitalize;
+    padding: 0.25rem;
+}
+
+.register-btn:hover {
+    background-color: rgb(199, 62, 62);
+}
