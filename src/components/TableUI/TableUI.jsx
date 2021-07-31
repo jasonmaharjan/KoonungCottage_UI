@@ -5,51 +5,60 @@ import moment from "moment";
 import { Link } from "react-router-dom";
 import Button from "../Button/Button";
 
-const columns = [
-    {
-        title: "Activity",
-        dataIndex: "activity",
-        width: "30%",
-    },
-    {
-        title: "Date",
-        dataIndex: "date",
-        width: "15%",
-        sorter: (a, b) => a.date > b.date,
-        render: (record) => {
-            return <Space size="middle">{moment(record).format("YYYY-MM-DD")}</Space>;
+const TableUI = ({ activitiesData }) => {
+    const columns = [
+        {
+            title: "Activity",
+            dataIndex: "activity",
+            width: "39%",
         },
-    },
-    {
-        title: "Details",
-        dataIndex: "details",
-        width: "20%",
-    },
-    {
-        title: "Register",
-        key: "action",
-        width: "10%",
-        render: (record) => {
-            return (
-                <Space size="middle">
-                    <Link to={`/${record.key}`}>
-                        <Button title="register" />
-                    </Link>
-                </Space>
-            );
+        {
+            title: "Date",
+            dataIndex: "date",
+            width: "20%",
+            sorter: (a, b) => a.date.localeCompare(b.date),
+            render: (record) => {
+                return <Space size="middle">{moment(record).format("DD/MM/YYYY")}</Space>;
+            },
         },
-    },
-];
+        {
+            title: "Details",
+            dataIndex: "details",
+            width: "25%",
+        },
+        {
+            title: "Register",
+            key: "action",
+            width: "1%",
+            render: (record) => {
+                return (
+                    <Space size="middle">
+                        <Link to={`/${record.key}`}>
+                            <Button title="register" />
+                        </Link>
+                    </Space>
+                );
+            },
+        },
+    ];
 
-const showHeader = true;
-const pagination = { position: "bottom" };
+    const showHeader = true;
+    const pagination = { position: "bottom" };
 
-class TableUII extends React.Component {
-    constructor(props) {
-        super(props);
-    }
-    state = {
-        bordered: true,
+    const tableData = activitiesData.map((entry, idx) => {
+        return {
+            key: entry.id,
+            activity: entry.name,
+            date: entry.startTime,
+            details: entry.room[0].value,
+        };
+    });
+    const tableColumns = columns.map((item) => {
+        return { ...item };
+    });
+
+    const config = {
+        bordered: false,
         pagination,
         size: "default",
         showHeader,
@@ -59,27 +68,11 @@ class TableUII extends React.Component {
         tableLayout: "unset",
     };
 
-    render() {
-        const data = this.props.activitiesData;
+    return (
+        <>
+            <Table {...config} pagination={{ position: [config.top, config.bottom] }} columns={tableColumns} dataSource={tableData} />
+        </>
+    );
+};
 
-        const newData = data.map((entry, idx) => {
-            return {
-                key: entry.id,
-                activity: entry.name,
-                date: entry.startTime,
-                details: entry.room[0].value,
-            };
-        });
-        const tableColumns = columns.map((item) => {
-            return { ...item };
-        });
-
-        return (
-            <>
-                <Table {...this.state} pagination={{ position: [this.state.top, this.state.bottom] }} columns={tableColumns} dataSource={newData} />
-            </>
-        );
-    }
-}
-
-export default TableUII;
+export default TableUI;

@@ -75,10 +75,11 @@ const FilterUI = ({ selectActivity, selectActivityCategory, update }) => {
                                 }}
                             />
                         </Space>
+
                         <div>
                             <Select
                                 placeholder="Select an activity category"
-                                style={{ marginTop: "1rem", width: "40%", marginRight: "1rem" }}
+                                style={{ marginTop: "1rem", width: "25rem", marginRight: "1rem" }}
                                 onChange={(option) => {
                                     handleChange({ activityCategory: option });
                                 }}
@@ -91,7 +92,7 @@ const FilterUI = ({ selectActivity, selectActivityCategory, update }) => {
 
                             <Select
                                 placeholder="Select an activity"
-                                style={{ marginTop: "1rem", width: "40%" }}
+                                style={{ marginTop: "1rem", width: "25rem" }}
                                 onChange={(option) => {
                                     handleChange({ activityType: option });
                                 }}

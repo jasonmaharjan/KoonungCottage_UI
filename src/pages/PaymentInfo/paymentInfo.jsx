@@ -27,7 +27,7 @@ const PaymentInfo = () => {
 
     return (
         <section>
-            <Link style={{ fontSize: "1rem", textDecoration: "underline" }} to="/">
+            <Link style={{ fontSize: "1rem", textAlign: "center", textDecoration: "underline" }} to="/">
                 Back to Homepage
             </Link>
         </section>
