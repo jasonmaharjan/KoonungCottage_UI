@@ -1,8 +1,6 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 
-import { Link } from "react-router-dom";
-
 import { Menu, Dropdown, Space, Button } from "antd";
 import { DownOutlined } from "@ant-design/icons";
 import ButtonUI from "../../components/Button/Button";
@@ -52,6 +50,13 @@ const Main = () => {
         setActivitiesData(filteredData);
     };
 
+    // filter the activity types for a selected category
+    const updateActivityTypes = (filteredData) => {
+        const filteredActivityTypes = [];
+        filteredData.map((entry) => filteredActivityTypes.push({ value: entry.id, label: entry.name }));
+        setSelectActivity(filteredActivityTypes);
+    };
+
     const onClick = () => {
         setShowFilters(!showFilters);
     };
@@ -90,7 +95,12 @@ const Main = () => {
                                 </div>
                             </div>
                             {showFilters ? (
-                                <FilterUI selectActivity={selectActivity} selectActivityCategory={selectActivityCategory} update={updateActivities} />
+                                <FilterUI
+                                    selectActivity={selectActivity}
+                                    selectActivityCategory={selectActivityCategory}
+                                    updateActivities={updateActivities}
+                                    updateActivityTypes={updateActivityTypes}
+                                />
                             ) : null}
                             {layout === "table" ? (
                                 <TableUI activitiesData={activitiesData} />
