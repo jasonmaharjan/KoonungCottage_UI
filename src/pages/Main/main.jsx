@@ -46,7 +46,6 @@ const Main = () => {
     }, []);
 
     const updateActivities = (filteredData) => {
-        //  console.log("filteredData =>", filteredData);
         setActivitiesData(filteredData);
     };
 

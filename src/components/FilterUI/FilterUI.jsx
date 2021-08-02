@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { Alert, DatePicker, Space } from "antd";
+import { DatePicker, Space } from "antd";
 import { Select } from "antd";
 import "antd/dist/antd.css";
 
@@ -36,16 +36,7 @@ const FilterUI = ({ selectActivity, selectActivityCategory, updateActivities, up
         }
     }, [date]);
 
-    const handleChange = async ({ activityTypeOption, activityCategoryOption }) => {
-        // get the activity types of a single selected category
-        if (activityCategoryOption) {
-            const url = "https://0r2kabf0lk.execute-api.ap-southeast-2.amazonaws.com/prod/getActivityTypes";
-            const activityTypes = await axios.get(url, {
-                params: { activityCategory: activityCategoryOption },
-            });
-            updateActivityTypes(activityTypes.data.entries);
-        }
-
+    const filterData = async ({ activityTypeOption, activityCategoryOption }) => {
         const filteredData = await filter({
             activityTypeOption,
             activityCategoryOption,
@@ -56,28 +47,21 @@ const FilterUI = ({ selectActivity, selectActivityCategory, updateActivities, up
         updateActivities(filteredData);
     };
 
-    const handleClear = async (params) => {
-        let filteredData;
-
-        if (params === "activity") {
-            setActivityType(null);
-            filteredData = await axios.get("https://0r2kabf0lk.execute-api.ap-southeast-2.amazonaws.com/prod/getActivities", {
-                params: { activityCategory },
+    const handleChange = async ({ activityTypeOption = null, activityCategoryOption = null, clearCategory }) => {
+        if (clearCategory) {
+            filterData({ activityTypeOption, activityCategoryOption });
+        } else if (activityCategoryOption && !activityTypeOption) {
+            // get the activity types of a single selected category
+            const url = "https://0r2kabf0lk.execute-api.ap-southeast-2.amazonaws.com/prod/getActivityTypes";
+            const activityTypes = await axios.get(url, {
+                params: { activityCategory: activityCategoryOption },
             });
-            updateActivities(filteredData.data.entries);
-        }
-
-        if (params === "category") {
-            setActivityType(null);
-            setActivityCategory(null);
-
-            // is category is cleared, get all (unfiltered) activity Types
-            const activityTypes = await axios.get("https://0r2kabf0lk.execute-api.ap-southeast-2.amazonaws.com/prod/getActivityTypes", {});
             updateActivityTypes(activityTypes.data.entries);
-
-            const url = "https://0r2kabf0lk.execute-api.ap-southeast-2.amazonaws.com/prod/getActivities";
-            const res = await axios.get(url);
-            updateActivities(res.data.entries);
+            filterData({ activityTypeOption, activityCategoryOption });
+        } else if (activityTypeOption && !activityCategoryOption) {
+            filterData({ activityTypeOption, activityCategoryOption });
+        } else if (!activityTypeOption && activityCategory && !clearCategory) {
+            filterData({ activityTypeOption, activityCategoryOption: activityCategory });
         }
     };
 
@@ -102,12 +86,9 @@ const FilterUI = ({ selectActivity, selectActivityCategory, updateActivities, up
                                 onChange={(option) => {
                                     setActivityType(null);
                                     setActivityCategory(option);
-                                    handleChange({ activityCategoryOption: option });
+                                    option ? handleChange({ activityCategoryOption: option }) : handleChange({ clearCategory: true });
                                 }}
                                 allowClear
-                                onClear={() => {
-                                    handleClear("category");
-                                }}
                                 value={activityCategory}
                             >
                                 {selectActivityCategory.map((category) => (
@@ -123,7 +104,6 @@ const FilterUI = ({ selectActivity, selectActivityCategory, updateActivities, up
                                     handleChange({ activityTypeOption: option });
                                 }}
                                 allowClear
-                                onClear={() => handleClear("activity")}
                                 value={activityType}
                             >
                                 {selectActivity.map((activity) => (
