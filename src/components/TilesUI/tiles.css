@@ -1,6 +1,7 @@
 .tilesUI {
     display: grid;
-    grid-template-columns: 70% 30%;
+    grid-template-columns: 4fr 1fr;
+    grid-gap: 2rem;
 }
 
 .tilesUI-title {
@@ -9,7 +10,6 @@
 }
 
 .tilesUI-card {
-    margin-top: 2rem;
 }
 
 .categoriesUI {

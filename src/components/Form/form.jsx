@@ -14,7 +14,7 @@ const FormUI = ({ handleSubmit }) => {
         <Form.Item name="prefix" noStyle>
             <Select
                 style={{
-                    width: 70,
+                    width: 80,
                 }}
             >
                 <Option value="61">+61</Option>
@@ -23,7 +23,7 @@ const FormUI = ({ handleSubmit }) => {
     );
 
     return (
-        <Form form={form} layout={"vertical"} name="register" onFinish={onFinish} style={{ fontFamily: "Lato, sans-serif", fontSize: "1rem" }}>
+        <Form form={form} layout={"vertical"} name="register" onFinish={onFinish}>
             <Form.Item
                 name="firstName"
                 label="First Name"
@@ -86,11 +86,9 @@ const FormUI = ({ handleSubmit }) => {
                 />
             </Form.Item>
 
-            <Form.Item>
-                <button htmltype="submit" className="register-btn">
-                    Register and Pay
-                </button>
-            </Form.Item>
+            <button htmltype="submit" className="register-btn">
+                Register and Pay
+            </button>
         </Form>
     );
 };

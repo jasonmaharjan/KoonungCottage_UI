@@ -12,7 +12,7 @@ const TilesUI = ({ activitiesData, categoriesData }) => {
     return (
         <section className="tilesUI">
             <section className="tilesUI-content">
-                <div className="tilesUI-title"> Activities</div>
+                {/* <div className="tilesUI-title"> Activities</div> */}
                 <div className="tilesUI-card">
                     {activitiesData.map((data) => (
                         <>
@@ -27,7 +27,7 @@ const TilesUI = ({ activitiesData, categoriesData }) => {
             </section>
 
             <section className="categoriesUI">
-                <div>View by Categories </div>
+                <div>Categories </div>
                 <CategoriesUI categories={categoriesData} />
             </section>
         </section>

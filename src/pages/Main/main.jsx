@@ -17,7 +17,7 @@ const Main = () => {
 
     const [isLoading, setIsLoading] = useState(true);
     const [showFilters, setShowFilters] = useState(false);
-    const [layout, setLayout] = useState("table");
+    const [layout, setLayout] = useState("tiles");
 
     const getEntries = async () => {
         const url = "https://0r2kabf0lk.execute-api.ap-southeast-2.amazonaws.com/prod/getActivities";
@@ -80,7 +80,7 @@ const Main = () => {
                 <section>
                     {selectActivity && selectActivityCategory && activitiesData ? (
                         <div style={{ display: "grid", gridTemplateRows: "max-content max-content", gridGap: "2rem" }}>
-                            <div style={{ display: "flex", justifyContent: "space-between" }}>
+                            {/* <div style={{ display: "flex", justifyContent: "space-between" }}>
                                 <ButtonUI title="filter" onClick={onClick} />
 
                                 <div>
@@ -100,7 +100,7 @@ const Main = () => {
                                     updateActivities={updateActivities}
                                     updateActivityTypes={updateActivityTypes}
                                 />
-                            ) : null}
+                            ) : null} */}
                             {layout === "table" ? (
                                 <TableUI activitiesData={activitiesData} />
                             ) : layout === "tiles" ? (

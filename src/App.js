@@ -11,7 +11,13 @@ function App() {
             <Switch>
                 <Route path="/paymentInfo" component={PaymentInfo} />
                 <Route path="/:id" component={ActivityPage} />
-                <Route path="/" component={MainPage} />
+                <Route
+                    path="/categories"
+                    render={() => {
+                        <MainPage />;
+                    }}
+                />
+                <Route path="/" render={({ match, history }) => <MainPage match={match} history={history} />} />
             </Switch>
         </section>
     );
