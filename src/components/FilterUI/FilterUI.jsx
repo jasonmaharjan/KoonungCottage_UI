@@ -1,81 +1,59 @@
 import { useState, useEffect, useRef } from "react";
-import { DatePicker, Space } from "antd";
+import { Alert, DatePicker, Space } from "antd";
 import { Select } from "antd";
 import "antd/dist/antd.css";
 
 import axios from "axios";
 import "./filterUI.css";
 
+import { filter } from "../../utils/utils";
+
 const FilterUI = ({ selectActivity, selectActivityCategory, updateActivities, updateActivityTypes }) => {
     const [date, setDate] = useState(null);
-
     const [activityType, setActivityType] = useState(null);
     const [activityCategory, setActivityCategory] = useState(null);
-    const [loading, setLoading] = useState(false);
 
     const { RangePicker } = DatePicker;
     const { Option } = Select;
 
-    useEffect(() => {
-        setDate(date);
+    useEffect(async () => {
+        if (date) {
+            const filteredData = await filter({
+                activityTypeOption: activityType,
+                activityCategoryOption: activityCategory,
+                startDateOption: date[0],
+                endDateOption: date[1],
+            });
+            updateActivities(filteredData);
+        } else {
+            const filteredData = await filter({
+                activityTypeOption: activityType,
+                activityCategoryOption: activityCategory,
+                startDateOption: null,
+                endDateOption: null,
+            });
+            updateActivities(filteredData);
+        }
     }, [date]);
 
-    const setVal = (selectedDate) => {
-        console.log(selectedDate);
-        setDate(selectedDate);
-        if (date) handleChange();
-    };
-
-    const handleChange = async ({ activityType = null, activityCategory = null }) => {
-        if (activityType) {
-            setActivityType(activityType);
-        }
-
-        let startDate = null;
-        let endDate = null;
-
-        if (date) {
-            startDate = date[0];
-            endDate = date[1];
-            console.log("changes-->", activityType, activityCategory, date);
-        }
-
+    const handleChange = async ({ activityTypeOption, activityCategoryOption }) => {
         // get the activity types of a single selected category
-        if (activityCategory) {
+        if (activityCategoryOption) {
             const url = "https://0r2kabf0lk.execute-api.ap-southeast-2.amazonaws.com/prod/getActivityTypes";
             const activityTypes = await axios.get(url, {
-                params: { activityCategory },
+                params: { activityCategory: activityCategoryOption },
             });
-            setActivityCategory(activityCategory);
-
             updateActivityTypes(activityTypes.data.entries);
         }
 
-        const url = "https://0r2kabf0lk.execute-api.ap-southeast-2.amazonaws.com/prod/getActivities";
-        let filteredData = null;
+        const filteredData = await filter({
+            activityTypeOption,
+            activityCategoryOption,
+            startDateOption: date ? date[0] : null,
+            endDateOption: date ? date[1] : null,
+        });
 
-        if (activityType && !date && !activityCategory) {
-            filteredData = await axios.get(url, { params: { activityType } });
-            updateActivities(filteredData.data.entries);
-        } else if (!activityType && !date && activityCategory) {
-            filteredData = await axios.get(url, { params: { activityCategory } });
-            updateActivities(filteredData.data.entries);
-        } else if (date && !activityType) {
-            filteredData = await axios.get(url, {
-                params: { startDate: startDate.toISOString(), endDate: endDate.toISOString() },
-            });
-            updateActivities(filteredData.data.entries);
-        } else if (date && !activityCategory) {
-            filteredData = await axios.get(url, {
-                params: { startDate: startDate.toISOString(), endDate: endDate.toISOString() },
-            });
-            updateActivities(filteredData.data.entries);
-        } else if (activityType && activityCategory && date) {
-            filteredData = await axios.get(url, {
-                params: { activityType, activityCategory, startDate: startDate.toISOString(), endDate: endDate.toISOString() },
-            });
-            updateActivities(filteredData.data.entries);
-        }
+        updateActivities(filteredData);
     };
 
     const handleClear = async (params) => {
@@ -90,8 +68,13 @@ const FilterUI = ({ selectActivity, selectActivityCategory, updateActivities, up
         }
 
         if (params === "category") {
-            setActivityCategory(null);
             setActivityType(null);
+            setActivityCategory(null);
+
+            // is category is cleared, get all (unfiltered) activity Types
+            const activityTypes = await axios.get("https://0r2kabf0lk.execute-api.ap-southeast-2.amazonaws.com/prod/getActivityTypes", {});
+            updateActivityTypes(activityTypes.data.entries);
+
             const url = "https://0r2kabf0lk.execute-api.ap-southeast-2.amazonaws.com/prod/getActivities";
             const res = await axios.get(url);
             updateActivities(res.data.entries);
@@ -108,17 +91,18 @@ const FilterUI = ({ selectActivity, selectActivityCategory, updateActivities, up
                         <Space direction="vertical" size={12}>
                             <RangePicker
                                 onChange={(date) => {
-                                    setVal(date);
+                                    setDate(date);
                                 }}
                             />
                         </Space>
-
                         <div>
                             <Select
                                 placeholder="Select an activity category"
                                 style={{ marginTop: "1rem", width: "25rem", marginRight: "1rem" }}
                                 onChange={(option) => {
-                                    handleChange({ activityCategory: option });
+                                    setActivityType(null);
+                                    setActivityCategory(option);
+                                    handleChange({ activityCategoryOption: option });
                                 }}
                                 allowClear
                                 onClear={() => {
@@ -135,7 +119,8 @@ const FilterUI = ({ selectActivity, selectActivityCategory, updateActivities, up
                                 placeholder="Select an activity"
                                 style={{ marginTop: "1rem", width: "25rem" }}
                                 onChange={(option) => {
-                                    handleChange({ activityType: option });
+                                    setActivityType(option);
+                                    handleChange({ activityTypeOption: option });
                                 }}
                                 allowClear
                                 onClear={() => handleClear("activity")}
