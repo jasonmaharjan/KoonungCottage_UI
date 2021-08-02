@@ -1,7 +1,9 @@
 import { Link } from "react-router-dom";
+import { filter } from "../../utils/utils";
+
 import "./categoriesUI.css";
 
-const CategoriesUI = ({ categories, update }) => {
+const CategoriesUI = ({ categories, updateActivities }) => {
     // let categoriesList = [];
     // // remove emojis from the categories
     // categories.map((category) =>
@@ -14,14 +16,26 @@ const CategoriesUI = ({ categories, update }) => {
     //     })
     // );
 
+    const handleClick = async (categoryId) => {
+        const filteredData = await filter({
+            activityCategoryOption: categoryId,
+        });
+
+        updateActivities(filteredData);
+    };
+
     return (
         <ul className="categories-list">
             {categories.map((category) => (
-                <Link to={`category?id=${category.value}`}>
-                    <li className="categories-list-item" key={category.value}>
-                        {category.label}
-                    </li>
-                </Link>
+                // <Link to={`category?id=${category.value}`}>
+                //     <li className="categories-list-item" key={category.value}>
+                //         {category.label}
+                //     </li>
+                // </Link>
+
+                <li className="categories-list-item" key={category.value} onClick={() => handleClick(category.value)}>
+                    {category.label}
+                </li>
             ))}
         </ul>
     );

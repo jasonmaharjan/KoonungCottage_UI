@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { Form, Input, Cascader, Select, Row, Col, Checkbox, Button, AutoComplete } from "antd";
 
 import "./form.css";
@@ -26,20 +25,21 @@ const FormUI = ({ handleSubmit }) => {
         <Form form={form} layout={"vertical"} name="register" onFinish={onFinish}>
             <Form.Item
                 name="firstName"
-                label="First Name"
+                label={<span style={{ color: "rgb(102, 102, 102)", fontSize: "16px" }}>First Name</span>}
                 rules={[
                     {
                         required: true,
                         message: "Please input your first name!",
                     },
                 ]}
+                style={{ color: "rgb(102, 102, 102) !important" }}
             >
                 <Input />
             </Form.Item>
 
             <Form.Item
                 name="lastName"
-                label="Last Name"
+                label={<span style={{ color: "rgb(102, 102, 102)", fontSize: "16px" }}>Last Name</span>}
                 rules={[
                     {
                         required: true,
@@ -53,7 +53,7 @@ const FormUI = ({ handleSubmit }) => {
 
             <Form.Item
                 name="email"
-                label="E-mail"
+                label={<span style={{ color: "rgb(102, 102, 102)", fontSize: "16px" }}>Email</span>}
                 rules={[
                     {
                         type: "email",
@@ -70,7 +70,7 @@ const FormUI = ({ handleSubmit }) => {
 
             <Form.Item
                 name="mobileNumber"
-                label="Mobile Number"
+                label={<span style={{ color: "rgb(102, 102, 102)", fontSize: "16px" }}>Mobile Number </span>}
                 rules={[
                     {
                         required: true,

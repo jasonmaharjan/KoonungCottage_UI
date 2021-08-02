@@ -17,3 +17,9 @@
     color: rgb(36, 141, 108);
     justify-self: center;
 }
+
+.tilesUI-no-info {
+    font-size: 1.25rem;
+    color: #24678d;
+    font-weight: 600;
+}

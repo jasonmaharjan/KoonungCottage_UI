@@ -74,7 +74,7 @@ const RegisterUI = () => {
 
     return (
         <section className="registerUI">
-            <div style={{ marginBottom: "2rem", fontSize: "1.25rem" }}>Let's get in touch with you</div>
+            <div style={{ marginBottom: "2rem", fontSize: "1.25rem", color: "#24678d" }}>Let's get in touch with you</div>
             <FormUI handleSubmit={handleSubmit} />
         </section>
     );

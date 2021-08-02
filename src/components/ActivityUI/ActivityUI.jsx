@@ -24,12 +24,12 @@ const ActivityUI = ({ activity }) => {
 
                         <div>
                             <div className="activity-card-title">Start Date</div>
-                            <div className="activity-card-content">{moment(activity["start-time"]).format("YYYY-MM-DD")}</div>
+                            <div className="activity-card-content">{moment(activity["start-time"]).format("DD/MM/YYYY")}</div>
                         </div>
 
                         <div>
                             <div className="activity-card-title">End Date</div>
-                            <div className="activity-card-content">{moment(activity["end-time"]).format("YYYY-MM-DD")}</div>
+                            <div className="activity-card-content">{moment(activity["end-time"]).format("DD/MM/YYYY")}</div>
                         </div>
 
                         <div>

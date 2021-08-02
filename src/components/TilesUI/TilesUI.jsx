@@ -1,37 +1,57 @@
+import React from "react";
+import { List, Avatar, Space } from "antd";
+
 import { Link } from "react-router-dom";
-import CardUI from "../../components/CardUI/CardUI";
-import Button from "../../components/Button/Button";
-import { useParams } from "react-router-dom";
+import CardUI from "../CardUI/CardUI";
+import CategoriesUI from "../CategoriesUI/CategoriesUI";
+import Button from "../Button/Button";
 
-import CategoriesUI from "../../components/CategoriesUI/CategoriesUI";
-
-import { Divider } from "antd";
 import "./tiles.css";
 
-const TilesUI = ({ activitiesData, categoriesData }) => {
+const TilesUII = ({ activitiesData, categoriesData, updateActivities }) => {
     return (
         <section className="tilesUI">
             <section className="tilesUI-content">
-                {/* <div className="tilesUI-title"> Activities</div> */}
-                <div className="tilesUI-card">
-                    {activitiesData.map((data) => (
-                        <>
-                            <CardUI data={data} />
-                            <Link to={`/${data.id}`}>
-                                <Button title="register" />
-                            </Link>
-                            <Divider color="#bebebe" />
-                        </>
-                    ))}
-                </div>
+                <List
+                    itemLayout="vertical"
+                    size="large"
+                    pagination={{
+                        onChange: (page) => {
+                            console.log(page);
+                        },
+                        pageSize: 5,
+                    }}
+                    dataSource={activitiesData}
+                    renderItem={(activity) => {
+                        console.log("activity", activity);
+                        return (
+                            <>
+                                <List.Item key={activity.value}>
+                                    <>
+                                        {activity ? (
+                                            <>
+                                                <CardUI data={activity} />
+                                                <Link to={`/${activity.id}`}>
+                                                    <Button title="register" />
+                                                </Link>
+                                            </>
+                                        ) : (
+                                            <div className="tilesUI-no-info">No activities scheduled</div>
+                                        )}
+                                    </>
+                                </List.Item>
+                            </>
+                        );
+                    }}
+                />
             </section>
 
             <section className="categoriesUI">
                 <div>Categories </div>
-                <CategoriesUI categories={categoriesData} />
+                <CategoriesUI categories={categoriesData} updateActivities={updateActivities} />
             </section>
         </section>
     );
 };
 
-export default TilesUI;
+export default TilesUII;

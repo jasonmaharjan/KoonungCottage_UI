@@ -8,7 +8,6 @@ import ButtonUI from "../../components/Button/Button";
 import Spinner from "../../components/Spinner/spinner";
 import FilterUI from "../../components/FilterUI/FilterUI";
 import TableUI from "../../components/TableUI/TableUI";
-import TilesUI from "../../components/TilesUI/TilesUI";
 
 const Main = () => {
     const [activitiesData, setActivitiesData] = useState(null);
@@ -104,7 +103,11 @@ const Main = () => {
                             {layout === "table" ? (
                                 <TableUI activitiesData={activitiesData} />
                             ) : layout === "tiles" ? (
-                                <TilesUI activitiesData={activitiesData} categoriesData={selectActivityCategory} />
+                                <TilesUII
+                                    activitiesData={activitiesData}
+                                    categoriesData={selectActivityCategory}
+                                    updateActivities={updateActivities}
+                                />
                             ) : null}
                         </div>
                     ) : null}
