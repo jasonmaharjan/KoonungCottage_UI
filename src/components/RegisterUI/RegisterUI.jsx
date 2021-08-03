@@ -44,12 +44,9 @@ const RegisterUI = () => {
             description: `Payment for ${activity["name"]}`,
             amount_editable: false,
             success_url:
-                // process.env.NODE_ENV === "development"
-                //     ? `http://localhost:3000/booking/${guestsAndOrderData.orderResponse.entry.id}`
-                //     : `http://experience.japanesemountainretreat.com.au.s3-website-ap-southeast-2.amazonaws.com/booking/${guestsAndOrderData.orderResponse.entry.id}`,
-                // `http://localhost:3000/payment/${attendanceReq.data.entry.id}`,
-                `http://localhost:3000/paymentInfo`,
-            // `http://kalysyskoonung.com.s3-website-ap-southeast-2.amazonaws.com/paymentInfo`,
+                // process.env.NODE_ENV === "development" ?
+                `http://localhost:3000/payment/${attendanceReq.data.entry.id}`,
+            // `http://kalysyskoonung.com.s3-website-ap-southeast-2.amazonaws.com/payment/${attendanceReq.data.entry.id}`,
             email: attendanceReq.data.entry.email,
         });
 
@@ -74,7 +71,7 @@ const RegisterUI = () => {
 
     return (
         <section className="registerUI">
-            <div style={{ marginBottom: "2rem", fontSize: "1.25rem", color: "#24678d" }}>Let's get in touch with you</div>
+            <div style={{ marginBottom: "2rem", fontSize: "1.25rem", color: "#24678d" }}>Your Registration Details</div>
             <FormUI handleSubmit={handleSubmit} />
         </section>
     );

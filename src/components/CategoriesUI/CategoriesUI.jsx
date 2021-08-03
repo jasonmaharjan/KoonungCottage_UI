@@ -1,9 +1,14 @@
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { filter } from "../../utils/utils";
+
+import { useLocation, useHistory } from "react-router-dom";
 
 import "./categoriesUI.css";
 
 const CategoriesUI = ({ categories, updateActivities }) => {
+    let location = useLocation();
+    let history = useHistory();
+
     // let categoriesList = [];
     // // remove emojis from the categories
     // categories.map((category) =>
@@ -16,27 +21,29 @@ const CategoriesUI = ({ categories, updateActivities }) => {
     //     })
     // );
 
-    const handleClick = async (categoryId) => {
-        const filteredData = await filter({
-            activityCategoryOption: categoryId,
-        });
-
-        updateActivities(filteredData);
-    };
-
     return (
         <ul className="categories-list">
-            {categories.map((category) => (
-                // <Link to={`category?id=${category.value}`}>
-                //     <li className="categories-list-item" key={category.value}>
-                //         {category.label}
-                //     </li>
-                // </Link>
+            {categories &&
+                categories.map((category) => (
+                    // <Link to={`category?id=${category.value}`}>
+                    //     <li className="categories-list-item" key={category.value}>
+                    //         {category.label}
+                    //     </li>
+                    // </Link>
 
-                <li className="categories-list-item" key={category.value} onClick={() => handleClick(category.value)}>
-                    {category.label}
-                </li>
-            ))}
+                    <li
+                        className="categories-list-item"
+                        key={category.value}
+                        onClick={() => {
+                            history.push({
+                                pathname: location.pathname,
+                                search: `?id=${category.value}`,
+                            });
+                        }}
+                    >
+                        {category.label}
+                    </li>
+                ))}
         </ul>
     );
 };

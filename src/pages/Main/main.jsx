@@ -1,13 +1,20 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
+import { useLocation, useHistory } from "react-router-dom";
+
+import qs from "query-string";
+
+import { filter } from "../../utils/utils";
 
 import { Menu, Dropdown, Space, Button } from "antd";
 import { DownOutlined } from "@ant-design/icons";
+import { notification } from "antd";
 import ButtonUI from "../../components/Button/Button";
-
 import Spinner from "../../components/Spinner/spinner";
 import FilterUI from "../../components/FilterUI/FilterUI";
 import TableUI from "../../components/TableUI/TableUI";
+
+import TilesUI from "../../components/TilesUI/TilesUI";
 
 const Main = () => {
     const [activitiesData, setActivitiesData] = useState(null);
@@ -17,6 +24,9 @@ const Main = () => {
     const [isLoading, setIsLoading] = useState(true);
     const [showFilters, setShowFilters] = useState(false);
     const [layout, setLayout] = useState("tiles");
+
+    const location = useLocation();
+    const history = useHistory();
 
     const getEntries = async () => {
         const url = "https://0r2kabf0lk.execute-api.ap-southeast-2.amazonaws.com/prod/getActivities";
@@ -43,6 +53,37 @@ const Main = () => {
             setIsLoading(false);
         }
     }, []);
+
+    const openNotification = ({ message, description, type }) => {
+        notification[type]({
+            message,
+            description,
+            duration: 3,
+        });
+    };
+    useEffect(() => {
+        (async function getFilteredData() {
+            console.log(location);
+            if (location.search) {
+                const category = qs.parse(location.search);
+                console.log(category);
+
+                if (category.id) {
+                    const filteredData = await filter({
+                        activityCategoryOption: category.id,
+                    });
+                    setActivitiesData(filteredData);
+                }
+
+                if (category["charge_token"]) {
+                    openNotification({ type: "success", message: "Payment info", description: "Payment was successful" });
+                    history.push({
+                        pathname: location.pathname,
+                    });
+                }
+            }
+        })();
+    }, [location]);
 
     const updateActivities = (filteredData) => {
         setActivitiesData(filteredData);
@@ -103,7 +144,7 @@ const Main = () => {
                             {layout === "table" ? (
                                 <TableUI activitiesData={activitiesData} />
                             ) : layout === "tiles" ? (
-                                <TilesUII
+                                <TilesUI
                                     activitiesData={activitiesData}
                                     categoriesData={selectActivityCategory}
                                     updateActivities={updateActivities}

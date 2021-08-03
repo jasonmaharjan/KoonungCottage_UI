@@ -4,7 +4,8 @@ import { Link } from "react-router-dom";
 import { notification } from "antd";
 import "./paymentInfo.css";
 
-const PaymentInfo = () => {
+const PaymentInfo = ({ params }) => {
+    console.log(params);
     const chargeToken = window.location.search;
     console.log(chargeToken);
 

@@ -1,6 +1,6 @@
 .tilesUI {
     display: grid;
-    grid-template-columns: 4fr 1fr;
+    grid-template-columns: 4fr 1.25fr;
     grid-gap: 2rem;
 }
 
