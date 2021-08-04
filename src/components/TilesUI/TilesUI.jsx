@@ -8,31 +8,31 @@ import Button from "../Button/Button";
 
 import "./tiles.css";
 
-const TilesUI = ({ activitiesData, categoriesData, updateActivities }) => {
-    console.log(activitiesData);
+const TilesUI = ({ activitiesData, coursesData, allEntriesData, categoriesData }) => {
+    console.log("ALL ENTRIES DATA ===> ", allEntriesData);
     return (
         <section className="tilesUI">
             <section className="tilesUI-content">
-                {activitiesData.length ? (
+                {allEntriesData.length ? (
                     <List
                         itemLayout="vertical"
                         size="large"
                         pagination={{
                             onChange: (page) => {
-                                console.log(page);
                                 window.scrollTo({ top: 0, behavior: "smooth" });
                             },
-                            pageSize: 8,
+                            pageSize: 5,
                         }}
-                        dataSource={activitiesData}
-                        renderItem={(activity) => {
+                        dataSource={allEntriesData}
+                        renderItem={(data) => {
+                            // console.log("Data ===>", data);
                             return (
                                 <>
-                                    <List.Item key={activity.value} style={{ padding: "1rem 0rem 2rem" }}>
+                                    <List.Item key={data.value} style={{ padding: "1rem 0rem 2rem" }}>
                                         <>
                                             <>
-                                                <CardUI data={activity} />
-                                                <Link to={`/${activity.id}`}>
+                                                <CardUI data={data} />
+                                                <Link to={data.type === "course" ? `/course/${data.id}` : `/activity/${data.id}`}>
                                                     <Button title="register" />
                                                 </Link>
                                             </>
@@ -43,13 +43,13 @@ const TilesUI = ({ activitiesData, categoriesData, updateActivities }) => {
                         }}
                     />
                 ) : (
-                    <div className="tilesUI-no-info">No activities scheduled</div>
+                    <div className="tilesUI-no-info">No activities/courses scheduled</div>
                 )}
             </section>
 
             <section className="categoriesUI">
                 <div>Categories </div>
-                <CategoriesUI categories={categoriesData} updateActivities={updateActivities} />
+                <CategoriesUI categories={categoriesData} />
             </section>
         </section>
     );

@@ -5,7 +5,7 @@ import { useLocation, useHistory } from "react-router-dom";
 
 import "./categoriesUI.css";
 
-const CategoriesUI = ({ categories, updateActivities }) => {
+const CategoriesUI = ({ categories }) => {
     let location = useLocation();
     let history = useHistory();
 
@@ -25,12 +25,6 @@ const CategoriesUI = ({ categories, updateActivities }) => {
         <ul className="categories-list">
             {categories &&
                 categories.map((category) => (
-                    // <Link to={`category?id=${category.value}`}>
-                    //     <li className="categories-list-item" key={category.value}>
-                    //         {category.label}
-                    //     </li>
-                    // </Link>
-
                     <li
                         className="categories-list-item"
                         key={category.value}

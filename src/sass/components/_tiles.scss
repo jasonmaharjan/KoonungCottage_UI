@@ -1,0 +1,25 @@
+.tilesUI {
+    display: grid;
+    grid-template-columns: 4fr 1.25fr;
+    grid-gap: 2rem;
+}
+
+.tilesUI-title {
+    font-size: 1.25rem;
+    color: rgb(36, 141, 108);
+}
+
+.tilesUI-card {
+}
+
+.categoriesUI {
+    font-size: 1.15rem;
+    color: rgb(36, 141, 108);
+    justify-self: center;
+}
+
+.tilesUI-no-info {
+    font-size: 1.25rem;
+    color: #24678d;
+    font-weight: 600;
+}

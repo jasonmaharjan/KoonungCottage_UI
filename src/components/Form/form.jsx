@@ -1,8 +1,14 @@
+import { useState } from "react";
 import { Form, Input, Cascader, Select, Row, Col, Checkbox, Button, AutoComplete } from "antd";
 
 import "./form.css";
 
-const FormUI = ({ handleSubmit }) => {
+const FormUI = ({ handleSubmit, activityData, courseData }) => {
+    let cost;
+
+    if (activityData) cost = activityData["activity-fee"];
+    if (courseData) cost = courseData["activity-fee"];
+
     const { Option } = Select;
     const [form] = Form.useForm();
     const onFinish = (values) => {
@@ -14,12 +20,18 @@ const FormUI = ({ handleSubmit }) => {
             <Select
                 style={{
                     width: 80,
+                    borderRadius: "2px !important",
                 }}
             >
                 <Option value="61">+61</Option>
             </Select>
         </Form.Item>
     );
+
+    const inputStyle = {
+        padding: "0.25rem 0.6rem",
+        borderRadius: "2px",
+    };
 
     return (
         <Form form={form} layout={"vertical"} name="register" onFinish={onFinish}>
@@ -34,7 +46,7 @@ const FormUI = ({ handleSubmit }) => {
                 ]}
                 style={{ color: "rgb(102, 102, 102) !important" }}
             >
-                <Input />
+                <Input style={inputStyle} />
             </Form.Item>
 
             <Form.Item
@@ -48,7 +60,7 @@ const FormUI = ({ handleSubmit }) => {
                     },
                 ]}
             >
-                <Input />
+                <Input style={inputStyle} />
             </Form.Item>
 
             <Form.Item
@@ -65,7 +77,7 @@ const FormUI = ({ handleSubmit }) => {
                     },
                 ]}
             >
-                <Input />
+                <Input style={inputStyle} />
             </Form.Item>
 
             <Form.Item
@@ -78,16 +90,11 @@ const FormUI = ({ handleSubmit }) => {
                     },
                 ]}
             >
-                <Input
-                    addonBefore={prefixSelector}
-                    style={{
-                        width: "100%",
-                    }}
-                />
+                <Input addonBefore={prefixSelector} style={(inputStyle, { width: "100%" })} />
             </Form.Item>
 
-            <button htmltype="submit" className="register-btn">
-                Register and Pay
+            <button htmltype="submit" className={cost > 0 ? "register-pay-btn" : "register-btn"}>
+                {cost > 0 ? "Register and Pay" : "Register"}
             </button>
         </Form>
     );

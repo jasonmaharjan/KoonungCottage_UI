@@ -2,19 +2,19 @@ import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 
-import ActivityUI from "../../components/ActivityUI/ActivityUI";
+import CourseUI from "../../components/CourseUI/CourseUI";
 import RegisterUI from "../../components/RegisterUI/RegisterUI";
 import Spinner from "../../components/Spinner/spinner";
 
-import "./activity.css";
+import "./course.css";
 
-const ActivityPage = () => {
+const CoursePage = () => {
     const { id } = useParams();
-    const [activity, setActivity] = useState(null);
+    const [course, setCourse] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
 
     const getEntry = async () => {
-        const url = `https://0r2kabf0lk.execute-api.ap-southeast-2.amazonaws.com/prod/getActivity/${id}`;
+        const url = `https://0r2kabf0lk.execute-api.ap-southeast-2.amazonaws.com/prod/getCourse/${id}`;
         const res = await axios.get(url);
         return res.data;
     };
@@ -22,7 +22,7 @@ const ActivityPage = () => {
     useEffect(async () => {
         const res = await getEntry();
         if (res) {
-            setActivity(res);
+            setCourse(res);
             setIsLoading(false);
         }
     }, []);
@@ -32,21 +32,21 @@ const ActivityPage = () => {
             {isLoading ? (
                 <Spinner />
             ) : (
-                <section className="activity-page">
+                <section className="course-page">
                     <div
-                        className="activity-image"
+                        className="course-image"
                         style={{
-                            backgroundImage: `url(${activity.websiteImage})`,
+                            backgroundImage: `url(${course["website-image"]})`,
                             backgroundRepeat: "no-repeat",
-                            backgroundPosition: "center",
+                            backgroundPosition: "left",
                             backgroundSize: "cover",
                             borderRadius: "5px",
                         }}
                     />
 
-                    <div className="activity-page-content">
-                        <ActivityUI activity={activity} />
-                        <RegisterUI activityData={activity} />
+                    <div className="course-page-content">
+                        <CourseUI course={course} />
+                        <RegisterUI courseData={course} />
                     </div>
                 </section>
             )}
@@ -54,4 +54,4 @@ const ActivityPage = () => {
     );
 };
 
-export default ActivityPage;
+export default CoursePage;

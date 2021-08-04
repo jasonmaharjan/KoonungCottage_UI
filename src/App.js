@@ -2,8 +2,8 @@ import { Switch, Route, Redirect } from "react-router-dom";
 
 import MainPage from "./pages/Main/main";
 import ActivityPage from "./pages/Activity/activity";
+import CoursePage from "./pages/Course/course";
 //import PaymentInfo from "./pages/PaymentInfo/paymentInfo";
-import "./App.css";
 
 function App() {
     return (
@@ -12,7 +12,7 @@ function App() {
                 <Route
                     path="/payment"
                     render={(params) => {
-                        console.log(params);
+                        // console.log(params);
                         return (
                             <Redirect
                                 to={{
@@ -24,7 +24,8 @@ function App() {
                     }}
                 />
                 <Route path="/category" component={MainPage} />
-                <Route path="/:id" component={ActivityPage} />
+                <Route path="/activity/:id" component={ActivityPage} />
+                <Route path="/course/:id" component={CoursePage} />
                 <Route path="/" render={() => <Redirect to="/category" />} />
             </Switch>
         </section>

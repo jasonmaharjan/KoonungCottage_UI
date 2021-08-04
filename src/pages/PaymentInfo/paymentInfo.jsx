@@ -5,10 +5,7 @@ import { notification } from "antd";
 import "./paymentInfo.css";
 
 const PaymentInfo = ({ params }) => {
-    console.log(params);
     const chargeToken = window.location.search;
-    console.log(chargeToken);
-
     const openNotification = ({ message, description, type }) => {
         notification[type]({
             message,
